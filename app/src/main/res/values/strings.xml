@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+      <string-array name="string_goalmodel">
+         <item>Please select Goal Model</item>
+      </string-array>
+    <string-array name="string_template">
+        <item>Please select Template</item>
+    </string-array>
+
     <string name="app_name">MobiGoal</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -35,8 +42,11 @@
     <!-- welcome界面的按钮内容 -->
     <string name="bt_setAgent">Set Agent</string>
     <string name="bt_startAgent">Start Agent</string>
+    <string name="bt_instantiation">Instantiate Template.</string>
+
     <string name="tv_setAgent">Click to set agent.</string>
     <string name="tv_startAgent">Click to start agent.</string>
+    <string name="tv_instantiation">Click to instantiate template.</string>
 
     <!-- take picture界面的按钮内容 -->
     <string name="bt_save_pic">OK</string>
@@ -62,5 +72,6 @@
     <string name="msg_nickname_in_use">Nickname already in use!</string>
     <string name="title_activity_selection">SelectionActivity</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_instantiation">InstantiationActivity</string>
 
 </resources>
