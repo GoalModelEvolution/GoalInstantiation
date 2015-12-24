@@ -28,28 +28,61 @@ public class JerseyClient {
     private final static String GOAL_MODEL_SERVER_PORT = "8080";
     private final static String PREFIX = "http://" + GOAL_MODEL_SERVER_IP + ":" + GOAL_MODEL_SERVER_PORT + "/myapp/myresource/";
 
-
-    public synchronized static String getGoalModelList() {
-
+    public static String getGoalModelList() {
+        String response = "";
+        int responseCode = 0;
+        String message = "";
         try {
-            execute(RequestMethod.GET, PREFIX + "getGoalModelList", null, null);
+            HttpGet request = new HttpGet(PREFIX + "getGoalModelList");
+            HttpClient client = new DefaultHttpClient();
+            HttpResponse httpResponse = client.execute(request);
+            responseCode = httpResponse.getStatusLine().getStatusCode();
+            message = httpResponse.getStatusLine().getReasonPhrase();
+            HttpEntity entity = httpResponse.getEntity();
+            if (entity != null) {
+                InputStream instream = entity.getContent();
+                response = convertStreamToString(instream);
+                instream.close();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return null;
+        return response;
     }
+
+    public static String get
+
+
+    public static String getTemplateList(String goalModelName) {
+        String response = "";
+//        int responseCode = 0;
+//        String message = "";
+        try {
+            HttpGet request = new HttpGet(PREFIX + "getTemplatesList/" + goalModelName);
+            HttpClient client = new DefaultHttpClient();
+            HttpResponse httpResponse = client.execute(request);
+//            responseCode = httpResponse.getStatusLine().getStatusCode();
+//            message = httpResponse.getStatusLine().getReasonPhrase();
+            HttpEntity entity = httpResponse.getEntity();
+            if (entity != null) {
+                InputStream instream = entity.getContent();
+                response = convertStreamToString(instream);
+                instream.close();
+            }
+        } catch (Exception exp) {
+        }
+        return response;
+    }
+
+
+
 
     public enum RequestMethod {
         GET,
         POST
     }
 
-    public static int responseCode = 0;
-    public static String message;
-    public static String response;
-
-    public static synchronized void execute(RequestMethod method, String url, ArrayList<NameValuePair> headers, ArrayList<NameValuePair> params) throws Exception {
+    public static void execute(RequestMethod method, String url, ArrayList<NameValuePair> headers, ArrayList<NameValuePair> params) throws Exception {
 
         switch (method) {
             case GET: {
@@ -91,12 +124,16 @@ public class JerseyClient {
         }
     }
 
-    private static synchronized ArrayList<NameValuePair> addCommonHeaderField(ArrayList<NameValuePair> _header) {
+    private static ArrayList<NameValuePair> addCommonHeaderField(ArrayList<NameValuePair> _header) {
         _header.add(new BasicNameValuePair("Content-Type", "application/x-www-form-urlencoded"));
         return _header;
     }
 
-    private static synchronized void executeRequest(HttpUriRequest request, String url) {
+    private static  void executeRequest(HttpUriRequest request, String url) {
+
+        String response = "";
+        int responseCode = 0;
+        String message = "";
         HttpClient client = new DefaultHttpClient();
         HttpResponse httpResponse;
         try {
@@ -115,7 +152,7 @@ public class JerseyClient {
         }
     }
 
-    private static synchronized String convertStreamToString(InputStream is) {
+    private static String convertStreamToString(InputStream is) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();
         String line = null;
@@ -126,6 +163,10 @@ public class JerseyClient {
             is.close();
         } catch (IOException e) {
         }
-        return sb.toString();
+
+        if(sb.length() > 0)
+            return sb.substring(0,sb.length()-1);
+
+        return "";
     }
 }
